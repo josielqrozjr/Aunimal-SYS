@@ -23,7 +23,7 @@ int main(void) {
 
     // Lê os dados do arquivo binário e exibe
     while (fread(&reserva, sizeof(Reserva), 1, arquivo_binario) == 1) { // Enquanto houver registro ele retorna 1 para verdadeiro
-        printf("CPF: %d\n", reserva.cpf);
+        printf("CPF: %s\n", reserva.cpf);
         printf("Cliente: %s\n", reserva.cliente);
         printf("Pet: %s\n", reserva.pet);
         printf("Data Check-in: %s\n", reserva.data_check_in);

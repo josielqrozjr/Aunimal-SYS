@@ -27,7 +27,7 @@ int main(int argc, char *argv[]) {
     Lista_encadeada *lista = criar_lista_encadeada();
 
   // Extrai os dados da linha
-  int cpf;
+  char cpf[12];
   char cliente[MAX_STRING];
   char pet[MAX_STRING];
   char data_check_in[MIN_STRING];
@@ -36,7 +36,7 @@ int main(int argc, char *argv[]) {
   float valor_reserva;
 
     // Lê os dados do arquivo texto escolhido
-    while (fscanf(arquivo_texto, "%d %s %s %s %s %s %f", &cpf, cliente, pet, data_check_in, data_checkout, descricao, &valor_reserva) != EOF) {
+    while (fscanf(arquivo_texto, "%s %s %s %s %s %s %f", cpf, cliente, pet, data_check_in, data_checkout, descricao, &valor_reserva) != EOF) {
       
         // Cria a reserva
         Reserva *reserva = registrar_reserva(cpf, cliente, pet, data_check_in, data_checkout, descricao, valor_reserva);

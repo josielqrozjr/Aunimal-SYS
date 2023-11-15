@@ -265,3 +265,55 @@ void cadastrar_reserva(const char *arquivo_binario){
   // Destruir a lista encadeada
   excluir_lista_encadeada(lista_nova_reserva);
 }
+
+//-----------------------------------------------------------------------------------
+// Função para exibir TODOS os dados de reserva da lista encadeada
+void exibir_lista_completa(Lista_encadeada *lista) {
+    No *no = lista->primeiro;
+
+    // Loop para imprimir todos os dados da lista encadeada
+    while (no != NULL) {
+        if (no->Reserva != NULL) {
+            printf("CPF: %s\n", no->Reserva->cpf);
+            printf("Cliente: %s\n", no->Reserva->cliente);
+            printf("Pet: %s\n", no->Reserva->pet);
+            printf("Data Check-in: %s\n", no->Reserva->data_check_in);
+            printf("Data Checkout: %s\n", no->Reserva->data_checkout);
+            printf("Descrição: %s\n", no->Reserva->descricao);
+            printf("Valor Reserva: %f\n", no->Reserva->valor_reserva);
+            printf("\n");
+        } else {
+            printf("Sem reservas cadastradas no momento!\n");
+        }
+
+        // Desloca o ponteiro para o próximo nó da lista encadeada
+        no = no->proximo;
+    }
+}
+
+
+//-----------------------------------------------------------------------------------
+// Função para gravar lista em arquivo de texto.txt
+void gravar_lista_encadeada_em_texto(const char *nome_arquivo, Lista_encadeada *lista) {
+  FILE *arquivo_texto = fopen(nome_arquivo, "w");
+  if (arquivo_texto == NULL) {
+    printf("Erro ao abrir o arquivo de texto para escrita.\n");
+    return;
+  }
+
+  No *no = lista->primeiro;
+  while (no != NULL) { // Loop para escrever cada nó da lista no arquivo de texto
+    fprintf(arquivo_texto, "%s ", no->Reserva->cpf);
+    fprintf(arquivo_texto, "%s ", no->Reserva->cliente);
+    fprintf(arquivo_texto, "%s ", no->Reserva->pet);
+    fprintf(arquivo_texto, "%s ", no->Reserva->data_check_in);
+    fprintf(arquivo_texto, "%s ", no->Reserva->data_checkout);
+    fprintf(arquivo_texto, "%s ", no->Reserva->descricao);
+    fprintf(arquivo_texto, "%f\n", no->Reserva->valor_reserva);
+
+    // Desloca o ponteiro para o próximo nó da lista encadeada
+    no = no->proximo;
+  }
+
+  fclose(arquivo_texto);
+}

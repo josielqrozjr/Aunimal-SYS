@@ -11,30 +11,6 @@
 
 #include "lista.h"
 
-void gravar_lista_encadeada_em_texto(const char *nome_arquivo,
-                                     Lista_encadeada *lista) {
-  FILE *arquivo_texto = fopen(nome_arquivo, "w");
-  if (arquivo_texto == NULL) {
-    printf("Erro ao abrir o arquivo de texto para escrita.\n");
-    return;
-  }
-
-  No *no = lista->primeiro;
-  while (no != NULL) { // Loop para escrever cada nó da lista no arquivo
-    fprintf(arquivo_texto, "%s ", no->Reserva->cpf);
-    fprintf(arquivo_texto, "%s ", no->Reserva->cliente);
-    fprintf(arquivo_texto, "%s ", no->Reserva->pet);
-    fprintf(arquivo_texto, "%s ", no->Reserva->data_check_in);
-    fprintf(arquivo_texto, "%s ", no->Reserva->data_checkout);
-    fprintf(arquivo_texto, "%s ", no->Reserva->descricao);
-    fprintf(arquivo_texto, "%f\n", no->Reserva->valor_reserva);
-
-    // Move o ponteiro para o próximo nó da lista
-    no = no->proximo;
-  }
-
-  fclose(arquivo_texto);
-}
 
 int main(int argc, char *argv[]) {
 

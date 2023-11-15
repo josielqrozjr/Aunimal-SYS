@@ -69,6 +69,15 @@ void destruir_reserva(Reserva *reserva);
 // Função para cadastrar reserva no sistema e salvar no binário
 void cadastrar_reserva(const char *arquivo_binario);
 
+// Função para buscar uma reserva pelo cpf
+Reserva *buscar_cpf(Lista_encadeada *lista, No *no, const char *cpf);
+
+// Função para exibir TODOS os dados de reserva da lista encadeada
+void exibir_lista_completa(Lista_encadeada *lista);
+
+// Função para gravar lista em arquivo de texto.txt
+void gravar_lista_encadeada_em_texto(const char *nome_arquivo, Lista_encadeada *lista);
+
 #endif
 
 /* lista_h */

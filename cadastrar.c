@@ -3,7 +3,9 @@
 
 #include "lista.h"
 
-void solicitar_dados(){
+
+// Função para solicitar ao usuário que informe os dados de uma reserva
+Reserva *solicitar_dados(void){
 
   int cpf;
   char cliente[MAX_STRING];
@@ -15,22 +17,55 @@ void solicitar_dados(){
   
   printf("Digite o nome do cliente: ");
   scanf("%s", cliente);
+  
   printf("Digite o CPF do cliente: ");
   scanf("%d", &cpf);
+  getchar();  // Limpar o buffer
+
   printf("Digite o nome do pet: ");
   scanf("%s", pet);
+  
   printf("Digite a data de check-in: ");
   scanf("%s", data_check_in);
+  
   printf("Digite a data de check-out: ");
   scanf("%s", data_checkout);
+  
   printf("Digite a descrição da reserva: ");
   scanf("%s", descricao);
+  
   printf("Digite o valor da reserva: ");
   scanf("%f", &valor_reserva);
 
-  return;
-  
+  // Armazenar os dados da reserva
+  Reserva *reserva = registrar_reserva(cpf, cliente, pet, data_check_in, data_checkout, descricao, valor_reserva);
+
+  return reserva; // Retornar os dados inseridos pelo usuário
 }
+
+
+// Função para abrir o arquivo binário e retornar numa lista encadeada
+Lista_encadeada *abrir_arquivo_binario(const char *nome_arquivo){
+  
+  // Abre o arquivo binário para leitura
+  FILE *arquivo_binario = fopen(nome_arquivo, "rb");
+  if (arquivo_binario == NULL) 
+  { puts("Erro na abertura do arquivo"); exit(1); } 
+
+  Reserva *reserva;
+  // Criar a lista encadeada
+  Lista_encadeada *lista = criar_lista_encadeada();
+  
+  // Ler os dados do arquivo binário e insere na lista encadeada
+  while (fread(&reserva, sizeof(Reserva), 1, arquivo_binario) == 1) {
+    InserirRegistroOrdenado(lista, reserva);
+  }
+  // Fechar o arquivo binário
+  fclose(arquivo_binario);
+
+  return lista;
+}
+                                
 
 
 
@@ -39,7 +74,12 @@ void solicitar_dados(){
 
 int main(void){
 
+  abrir_arquivo_binario("binario.bin");
+
+  solicitar_dados();
+
   
+
 
   return 0;
 }

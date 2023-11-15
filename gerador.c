@@ -58,7 +58,7 @@ int main(int argc, char *argv[]) {
   char descricao[MAX_STRING];
   float valor_reserva;
 
-    // Lê os dados do arquivo texto
+    // Lê os dados do arquivo texto escolhido
     while (fscanf(arquivo_texto, "%d %s %s %s %s %s %f", &cpf, cliente, pet, data_check_in, data_checkout, descricao, &valor_reserva) != EOF) {
       
         // Cria a reserva

@@ -5,6 +5,7 @@
 //  Created by Josiel Queiroz Jr & Mateus A. Ramos on 12/11/23.
 // Arquivo contendo os protótipos das funções
 
+
 #ifndef LISTA_H
 #define LISTA_H
 
@@ -61,22 +62,31 @@ void gravar_lista_encadeada(const char *nome_arquivo, Lista_encadeada *lista);
 Lista_encadeada *abrir_arquivo_binario(const char *nome_arquivo);
 
 // Protótipo da função para solicitar dados de reserva para o usuário
-Reserva *solicitar_dados(void);
+Reserva *solicitar_dados(Lista_encadeada *lista);
 
 // Protótipo da função para liberar espaço alocado
 void destruir_reserva(Reserva *reserva);
 
-// Função para cadastrar reserva no sistema e salvar no binário
-void cadastrar_reserva(const char *arquivo_binario);
+// Protótipo da função para cadastrar reserva no sistema e salvar no binário
+void cadastrar_reserva(Lista_encadeada *lista_nova_reserva);
 
-// Função para buscar uma reserva pelo cpf
+// Protótipo da função para buscar uma reserva pelo cpf
 Reserva *buscar_cpf(Lista_encadeada *lista, No *no, const char *cpf);
 
-// Função para exibir TODOS os dados de reserva da lista encadeada
+// Protótipo da função para exibir TODOS os dados de reserva da lista encadeada
 void exibir_lista_completa(Lista_encadeada *lista);
 
-// Função para gravar lista em arquivo de texto.txt
+// Protótipo da função para gravar lista em arquivo de texto.txt
 void gravar_lista_encadeada_em_texto(const char *nome_arquivo, Lista_encadeada *lista);
+
+// Protótipo da função para validar um CPF
+bool validar_cpf(Lista_encadeada *lista, const char *cpf);
+
+// Protótipo da função para exibir todas as reservas da data escolhida
+void exibir_lista_checkin(Lista_encadeada *lista);
+
+// Protótipo da função para excluir um elemento (nó) da lista encadeada
+No* remover(No **lista, char cpf[]);
 
 #endif
 

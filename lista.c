@@ -3,7 +3,8 @@
 //  Aunimal SYS
 //
 //  Created by Josiel Queiroz Jr & Mateus A. Ramos on 12/11/23.
-//
+//  Arquivo lista.c
+
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -161,10 +162,10 @@ void destruir_reserva(Reserva *reserva) {
 Reserva *buscar_cpf(Lista_encadeada *lista, No *no, const char *cpf) {
     // Verifica se o nó é nulo
     if (no == NULL) {
-        return NULL; // Final da lista, CPF não encontrado
+        return NULL; // CPF não encontrado
     }
 
-    // Verifica se o CPF no nó atual corresponde ao CPF procurado
+    // Analisa se o CPF no nó atual corresponde ao CPF inserido
     if (strcmp(no->Reserva->cpf, cpf) == 0) {
         return no->Reserva; // Encontrou o CPF
     }
@@ -207,8 +208,28 @@ Lista_encadeada *abrir_arquivo_binario(const char *nome_arquivo){
 }
 
 //-----------------------------------------------------------------------------------
+// Função para validar um CPF
+bool validar_cpf(Lista_encadeada *lista, const char *cpf) {
+    No *no = lista->primeiro;
+    if (strlen(cpf) != 11) {
+        printf("CPF inválido: formato incorreto.\n");
+        return false;
+    }
+    // Loop para percorrer e verificar se todos são números
+    for (int i = 0; i < strlen(cpf); i++) {
+    if (cpf[i] < '0' || cpf[i] > '9') {return false;}
+
+    if (buscar_cpf(lista, no, cpf) != NULL) {
+        printf("CPF já cadastrado!\n");
+        return false;
+    }
+
+    return true; // CPF válido
+    }
+}
+//-----------------------------------------------------------------------------------
 // Função para solicitar ao usuário que informe os dados de uma reserva
-Reserva *solicitar_dados(void){
+Reserva *solicitar_dados(Lista_encadeada *lista){
 
   char cpf[12];
   char cliente[MAX_STRING];
@@ -221,16 +242,18 @@ Reserva *solicitar_dados(void){
   printf("Digite o nome do cliente: ");
   scanf("%s", cliente);
 
-  printf("Digite o CPF do cliente: ");
-  scanf("%s", cpf);
+  do {
+    printf("Digite o CPF do cliente: ");
+    scanf("%s", cpf);
+  } while (validar_cpf(lista, cpf) == false); // Validar CPF inserido
 
   printf("Digite o nome do pet: ");
   scanf("%s", pet);
 
-  printf("Digite a data de check-in: ");
+  printf("Digite a data de check-in (DD-MM-AAAA): ");
   scanf("%s", data_check_in);
 
-  printf("Digite a data de check-out: ");
+  printf("Digite a data de check-out (DD-MM-AAAA): ");
   scanf("%s", data_checkout);
 
   printf("Digite a descrição da reserva: ");
@@ -247,11 +270,9 @@ Reserva *solicitar_dados(void){
 
 //-----------------------------------------------------------------------------------
 // Função para cadastrar reserva no sistema e salvar no binário
-void cadastrar_reserva(const char *arquivo_binario){
+void cadastrar_reserva(Lista_encadeada *lista_nova_reserva){
 
-  Lista_encadeada *lista_nova_reserva = abrir_arquivo_binario(arquivo_binario);
-
-  Reserva *nova_reserva = solicitar_dados();
+  Reserva *nova_reserva = solicitar_dados(lista_nova_reserva);
 
   // Registrar dados da nova reserva na lista anterior
   InserirRegistroOrdenado(lista_nova_reserva, nova_reserva);
@@ -291,6 +312,34 @@ void exibir_lista_completa(Lista_encadeada *lista) {
     }
 }
 
+//-----------------------------------------------------------------------------------
+// Função para exibir as reservas da data de check_in escolhida
+void exibir_lista_checkin(Lista_encadeada *lista) {
+
+    // Solicitar data para o usuário
+    char data_escolhida[MIN_STRING];
+    printf("Digite a data de check-in: ");
+    scanf("%s", data_escolhida);
+  
+    No *no = lista->primeiro;
+
+    while (no != NULL) {
+        // Verificar se a reserva está na data escolhida
+        if (strcmp(no->Reserva->data_check_in, data_escolhida) == 0) {
+            // Exibir informações sobre a reserva
+            printf("CPF: %s\n", no->Reserva->cpf);
+            printf("Cliente: %s\n", no->Reserva->cliente);
+            printf("Pet: %s\n", no->Reserva->pet);
+            printf("Data Check-in: %s\n", no->Reserva->data_check_in);
+            printf("Data Checkout: %s\n", no->Reserva->data_checkout);
+            printf("Descrição: %s\n", no->Reserva->descricao);
+            printf("Valor Reserva: %.2f\n", no->Reserva->valor_reserva);
+            printf("\n");
+        }
+
+        no = no->proximo;
+    }
+}
 
 //-----------------------------------------------------------------------------------
 // Função para gravar lista em arquivo de texto.txt
@@ -317,3 +366,44 @@ void gravar_lista_encadeada_em_texto(const char *nome_arquivo, Lista_encadeada *
 
   fclose(arquivo_texto);
 }
+
+//-----------------------------------------------------------------------------------
+// Função para excluir um elemento (nó) da lista encadeada
+No* remover(No **lista, char cpf[]){
+    No *aux, *remover = NULL;
+
+    // Verifica se o nó é diferente de NULL
+    if(*lista){
+
+        // Compara o número de cpf dos elementos da lista com o cpf inserido pelo usuário. Caso sejam iguais, a variável remover recebe o endereço deste elemento (*lista é a posição atual da lista) e a lista recebe o próximo elemento
+        if((*lista)->Reserva->cpf == cpf){
+            remover = *lista;
+            *lista = remover->proximo;
+        }
+
+           // Caso não seja igual ao cpf inserido um ponteiro auxiliar recebe o início da lista (pois assim não alteraremos diretamente o ponteiro da lista)
+        else{
+            aux = *lista;
+
+            // Enquanto elemento não for o último da lista(*lista->proximo != NULL) e o próximo elemento possuir o cpf diferente daquele inserido pelo usuário, o ponteiro auxiliar recebe o próximo elemento da lista
+            while(aux->proximo && aux->proximo->Reserva->cpf != cpf)
+                aux = aux->proximo;
+
+            // Se o elemento não for o último da lista (*lista->proximo != NULL) a variável remover recebe o próximo elemento da lista e o próximo elemento da lista recebe o seu elemento seguinte
+            if(aux->proximo){
+                remover = aux->proximo;
+                aux->proximo = remover->proximo;
+            }
+        }
+    }
+    return remover;
+}
+
+//-----------------------------------------------------------------------------------
+// Função recursiva para liberar os nós de uma lista encadeada
+/*void liberar(No *lista){
+  if (lista != NULL){
+    liberar(lista->proximo);
+    free(lista);
+  }
+}*/

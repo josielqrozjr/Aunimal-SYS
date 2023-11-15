@@ -3,7 +3,8 @@
 //  Aunimal SYS
 //
 //  Created by Josiel Queiroz Jr & Mateus A. Ramos on 15/11/23.
-//
+//  Arquivo exportador.c
+
 
 #include <stdio.h>
 #include <stdlib.h>

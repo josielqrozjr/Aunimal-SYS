@@ -110,3 +110,28 @@ void gravar_lista_encadeada(const char *nome_arquivo, Lista_encadeada *lista) {
 
     fclose(arquivo_binario);
 }
+
+
+Reserva *registrar_reserva(int cpf, const char *cliente, const char *pet, const char *data_check_in, const char *data_checkout, const char *descricao, float valor_reserva) {
+    Reserva *reserva = malloc(sizeof(Reserva));
+    if (reserva == NULL) {
+        return NULL;
+    }
+
+    reserva->cpf = cpf;
+    strcpy(reserva->cliente, cliente);
+    strcpy(reserva->pet, pet);
+    strcpy(reserva->data_check_in, data_check_in);
+    strcpy(reserva->data_checkout, data_checkout);
+    strcpy(reserva->descricao, descricao);
+    reserva->valor_reserva = valor_reserva;
+
+    return reserva;
+}
+
+void destruir_reserva(Reserva *reserva) {
+    if (reserva == NULL) {
+        return;
+    }
+    free(reserva);
+}

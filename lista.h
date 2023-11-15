@@ -37,7 +37,7 @@ Reserva *registrar_reserva(int cpf,
                            const char *data_check_in,
                            const char *data_checkout,
                            const char *descricao,
-                           float valor_reserva);    // Protótipo da função para criar uma cadastrar uma reserva
+                           float valor_reserva);    // Protótipo da função para cadastrar uma reserva
 
 Lista_encadeada *criar_lista_encadeada(void);
 

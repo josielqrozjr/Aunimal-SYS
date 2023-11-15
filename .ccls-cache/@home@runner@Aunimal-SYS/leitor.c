@@ -22,7 +22,7 @@ int main(void) {
     Reserva reserva;
 
     // Lê os dados do arquivo binário e exibe
-    while (fread(&reserva, sizeof(Reserva), 1, arquivo_binario) == 1) {
+    while (fread(&reserva, sizeof(Reserva), 1, arquivo_binario) == 1) { // Enquanto houver registro ele retorna 1 para verdadeiro
         printf("CPF: %d\n", reserva.cpf);
         printf("Cliente: %s\n", reserva.cliente);
         printf("Pet: %s\n", reserva.pet);

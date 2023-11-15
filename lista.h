@@ -12,7 +12,7 @@
 #define MIN_STRING 20
 
 typedef struct Reserva {    // Estrutura da tabela reserva
-    int cpf;
+    char cpf[12];
     char cliente[MAX_STRING];
     char pet[MAX_STRING];
     char data_check_in[MIN_STRING];
@@ -31,7 +31,7 @@ typedef struct Lista_encadeada {
     No *ultimo;
 } Lista_encadeada;
 
-Reserva *registrar_reserva(int cpf, 
+Reserva *registrar_reserva(const char *cpf, 
                            const char *cliente,
                            const char *pet,
                            const char *data_check_in,

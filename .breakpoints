@@ -1,3 +1,12 @@
 {
-  "files": {}
+  "files": {
+    "cadastrar.c": [
+      {
+        "id": "320d185a-69a7-4766-841d-66543bf7e639",
+        "line": 82,
+        "version": 713,
+        "index": 1892
+      }
+    ]
+  }
 }

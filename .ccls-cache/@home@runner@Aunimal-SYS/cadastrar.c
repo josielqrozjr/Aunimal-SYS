@@ -53,6 +53,7 @@ Lista_encadeada *abrir_arquivo_binario(const char *nome_arquivo){
   { puts("Erro na abertura do arquivo"); exit(1); } 
 
   Reserva *reserva;
+  
   // Criar a lista encadeada
   Lista_encadeada *lista = criar_lista_encadeada();
   
@@ -61,24 +62,26 @@ Lista_encadeada *abrir_arquivo_binario(const char *nome_arquivo){
     InserirRegistroOrdenado(lista, reserva);
   }
   // Fechar o arquivo binário
-  fclose(arquivo_binario);
+  fclose(arquivo_binario);  
 
   return lista;
 }
-                                
-
-
-
-
 
 
 int main(void){
 
-  abrir_arquivo_binario("binario.bin");
+  Lista_encadeada *lista_nova_reserva = abrir_arquivo_binario("binario.bin");
 
-  solicitar_dados();
-
+  Reserva *nova_reserva = solicitar_dados();
   
+  // Registrar dados da nova reserva na lista anterior
+  InserirRegistroOrdenado(lista_nova_reserva, nova_reserva);
+  
+  // Gravar os dados da lista no arquivo binário
+  gravar_lista_encadeada("binario.bin", lista_nova_reserva);
+
+  // Destruir a lista encadeada
+  excluir_lista_encadeada(lista_nova_reserva);
 
 
   return 0;

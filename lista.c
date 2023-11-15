@@ -19,8 +19,8 @@ Lista_encadeada *criar_lista_encadeada(void) {
         return NULL;
     }
 
-    lista->primeiro = NULL; // Define o ponteiro que aponta para o primeiro elemento da lista como NULL
-    lista->ultimo = NULL; // Define o ponteiro que aponta para o próximo elemento da lista como NULL
+    lista->primeiro = NULL; 
+    lista->ultimo = NULL; 
 
     return lista;
 }

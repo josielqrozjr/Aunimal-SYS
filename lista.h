@@ -5,7 +5,7 @@
 //  Created by Josiel Queiroz Jr & Mateus A. Ramos on 12/11/23.
 // Arquivo contendo os protótipos das funções
 
-
+#include <stdbool.h>
 #ifndef LISTA_H
 #define LISTA_H
 
@@ -68,7 +68,7 @@ Reserva *solicitar_dados(Lista_encadeada *lista);
 void destruir_reserva(Reserva *reserva);
 
 // Protótipo da função para cadastrar reserva no sistema e salvar no binário
-void cadastrar_reserva(Lista_encadeada *lista_nova_reserva);
+void cadastrar_reserva(Lista_encadeada *lista_nova_reserva, const char *arquivo_binario);
 
 // Protótipo da função para buscar uma reserva pelo cpf
 Reserva *buscar_cpf(Lista_encadeada *lista, No *no, const char *cpf);

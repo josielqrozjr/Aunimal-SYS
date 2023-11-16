@@ -217,7 +217,7 @@ bool validar_cpf(Lista_encadeada *lista, const char *cpf) {
     }
     // Loop para percorrer e verificar se todos são números
     for (int i = 0; i < strlen(cpf); i++) {
-    if (cpf[i] < '0' || cpf[i] > '9') {return false;}
+    if (cpf[i] < '0' || cpf[i] > '9') {return false;}}
 
     if (buscar_cpf(lista, no, cpf) != NULL) {
         printf("CPF já cadastrado!\n");
@@ -225,7 +225,6 @@ bool validar_cpf(Lista_encadeada *lista, const char *cpf) {
     }
 
     return true; // CPF válido
-    }
 }
 //-----------------------------------------------------------------------------------
 // Função para solicitar ao usuário que informe os dados de uma reserva
@@ -270,7 +269,7 @@ Reserva *solicitar_dados(Lista_encadeada *lista){
 
 //-----------------------------------------------------------------------------------
 // Função para cadastrar reserva no sistema e salvar no binário
-void cadastrar_reserva(Lista_encadeada *lista_nova_reserva){
+void cadastrar_reserva(Lista_encadeada *lista_nova_reserva, const char *arquivo_binario){
 
   Reserva *nova_reserva = solicitar_dados(lista_nova_reserva);
 
@@ -376,7 +375,7 @@ No* remover(No **lista, char cpf[]){
     if(*lista){
 
         // Compara o número de cpf dos elementos da lista com o cpf inserido pelo usuário. Caso sejam iguais, a variável remover recebe o endereço deste elemento (*lista é a posição atual da lista) e a lista recebe o próximo elemento
-        if((*lista)->Reserva->cpf == cpf){
+        if(strcmp((*lista)->Reserva->cpf, cpf)){
             remover = *lista;
             *lista = remover->proximo;
         }
@@ -386,7 +385,7 @@ No* remover(No **lista, char cpf[]){
             aux = *lista;
 
             // Enquanto elemento não for o último da lista(*lista->proximo != NULL) e o próximo elemento possuir o cpf diferente daquele inserido pelo usuário, o ponteiro auxiliar recebe o próximo elemento da lista
-            while(aux->proximo && aux->proximo->Reserva->cpf != cpf)
+            while(aux->proximo && strcmp(aux->proximo->Reserva->cpf, cpf) !=0)
                 aux = aux->proximo;
 
             // Se o elemento não for o último da lista (*lista->proximo != NULL) a variável remover recebe o próximo elemento da lista e o próximo elemento da lista recebe o seu elemento seguinte

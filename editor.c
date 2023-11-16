@@ -22,21 +22,20 @@ int main(int argc, char *argv[]) {
 
       do{
           printf("\nAUNIMAL - HOTEL PET \nSistema de Reservas \n\t1 - Cadastrar reserva\n\t2 - Remover reserva\n\t3 - Exibir reservas\n\t4 - Sair\n");
-          scanf("%d", &opcao);
+          printf("Digite aqui o número da opção: ");
+          scanf("%d\n", &opcao);
 
           switch(opcao){
           case 1:
             printf("Cadastrar reserva\n");
-            printf("%50s\n", "=");
-            cadastrar_reserva(lista_editor);
+            cadastrar_reserva(lista_editor, argv[1]);
             break;
           case 2:
             printf("Remover reserva\n");
-            printf("%50s\n", "=");
-            scanf("%c", cpf);
-            removido = remover(*lista, cpf);
+            scanf("%s", cpf);
+            removido = remover(&lista, cpf);
             if(removido){
-                printf("Elemento a ser removido: %d\n", removido->Reserva->cpf);
+                printf("Elemento a ser removido: %s\n", removido->Reserva->cpf);
                 free(removido);
             }
             else
@@ -44,15 +43,14 @@ int main(int argc, char *argv[]) {
             break;
           case 3:
             printf("Exibir reservas\n");
-            printf("%50s\n", "=");
-            printf("Digite um número para a opção: \n\t1. Exibir todas \n\t2. Exibir por data de check-in");
-            scanf("%d", &opcao);
+            printf("Opções: \n\t1. Exibir todas \n\t2. Exibir por data de check-in\n");
+            printf("Digite aqui o número da opção: ");
+            scanf("%d\n", &opcao);
             if(opcao == 1){exibir_lista_completa(lista_editor);}
             else if(opcao == 2){exibir_lista_checkin(lista_editor);}
             break;
           case 4:
-            printf("Encerrando sistema!");
-            printf("%50s\n", "=");
+            printf("Encerrando sistema!\n");
             break;
           default:
               if(opcao != 0)
@@ -66,4 +64,4 @@ int main(int argc, char *argv[]) {
 
 
 
-}
+

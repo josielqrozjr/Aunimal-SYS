@@ -48,12 +48,6 @@ void excluir_lista_encadeada(Lista_encadeada *lista) {
 }
 
 //-----------------------------------------------------------------------------------
-//
-int lista_encadeada_vazia(Lista_encadeada *lista) {
-    return lista->primeiro == NULL;
-}
-
-//-----------------------------------------------------------------------------------
 // Função para inserir ordenado crescentemente na lista encadeada
 void InserirRegistroOrdenado(Lista_encadeada *lista, Reserva *Reserva) {
     No *novo_no = (No*)malloc(sizeof(No));
@@ -103,8 +97,9 @@ void gravar_lista_encadeada(const char *nome_arquivo, Lista_encadeada *lista) {
         printf("Erro ao abrir o arquivo binário para escrita.\n");
         return;
     }
-
-    No *no = lista->primeiro;
+  
+    No *no = (No*) malloc(sizeof(No));
+    no = lista->primeiro;
     while (no != NULL) { // Loop para escrever cada nó da lista no arquivo
         fwrite(no->Reserva->cpf, sizeof(char), 12, arquivo_binario);
         fwrite(no->Reserva->cliente, sizeof(char), MAX_STRING, arquivo_binario);
@@ -138,23 +133,6 @@ Reserva *registrar_reserva(const char *cpf, const char *cliente, const char *pet
     reserva->valor_reserva = valor_reserva;
 
     return reserva;
-}
-
-//-----------------------------------------------------------------------------------
-// Função para liberar memória alocada
-void destruir_reserva(Reserva *reserva) {
-    if (reserva == NULL) {
-        return;
-    }
-
-    free(reserva->cpf);
-    free(reserva->cliente);
-    free(reserva->pet);
-    free(reserva->data_check_in);
-    free(reserva->data_checkout);
-    free(reserva->descricao);
-
-    free(reserva);
 }
 
 //-----------------------------------------------------------------------------------
@@ -279,9 +257,6 @@ void cadastrar_reserva(Lista_encadeada *lista_nova_reserva, const char *arquivo_
   // Gravar os dados da lista no arquivo binário
   gravar_lista_encadeada(arquivo_binario, lista_nova_reserva);
 
-  // Destruir reserva
-  destruir_reserva(nova_reserva);
-
   // Destruir a lista encadeada
   excluir_lista_encadeada(lista_nova_reserva);
 }
@@ -385,7 +360,7 @@ No* remover(No **lista, char cpf[]){
             aux = *lista;
 
             // Enquanto elemento não for o último da lista(*lista->proximo != NULL) e o próximo elemento possuir o cpf diferente daquele inserido pelo usuário, o ponteiro auxiliar recebe o próximo elemento da lista
-            while(aux->proximo && strcmp(aux->proximo->Reserva->cpf, cpf) !=0)
+            while(aux->proximo && strcmp(aux->proximo->Reserva->cpf, cpf) ==0)
                 aux = aux->proximo;
 
             // Se o elemento não for o último da lista (*lista->proximo != NULL) a variável remover recebe o próximo elemento da lista e o próximo elemento da lista recebe o seu elemento seguinte
@@ -397,12 +372,3 @@ No* remover(No **lista, char cpf[]){
     }
     return remover;
 }
-
-//-----------------------------------------------------------------------------------
-// Função recursiva para liberar os nós de uma lista encadeada
-/*void liberar(No *lista){
-  if (lista != NULL){
-    liberar(lista->proximo);
-    free(lista);
-  }
-}*/

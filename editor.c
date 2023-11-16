@@ -1,4 +1,4 @@
-//
+  //
 //  editor.c
 //  Aunimal SYS
 //
@@ -23,7 +23,7 @@ int main(int argc, char *argv[]) {
       do{
           printf("\nAUNIMAL - HOTEL PET \nSistema de Reservas \n\t1 - Cadastrar reserva\n\t2 - Remover reserva\n\t3 - Exibir reservas\n\t4 - Sair\n");
           printf("Digite aqui o número da opção: ");
-          scanf("%d\n", &opcao);
+          scanf("%d", &opcao);
 
           switch(opcao){
           case 1:
@@ -32,7 +32,8 @@ int main(int argc, char *argv[]) {
             break;
           case 2:
             printf("Remover reserva\n");
-            scanf("%s", cpf);
+            printf("Digite o CPF do registro que deseja remover\n");
+            scanf("%11s", cpf);
             removido = remover(&lista, cpf);
             if(removido){
                 printf("Elemento a ser removido: %s\n", removido->Reserva->cpf);
@@ -45,7 +46,7 @@ int main(int argc, char *argv[]) {
             printf("Exibir reservas\n");
             printf("Opções: \n\t1. Exibir todas \n\t2. Exibir por data de check-in\n");
             printf("Digite aqui o número da opção: ");
-            scanf("%d\n", &opcao);
+            scanf("%d", &opcao);
             if(opcao == 1){exibir_lista_completa(lista_editor);}
             else if(opcao == 2){exibir_lista_checkin(lista_editor);}
             break;

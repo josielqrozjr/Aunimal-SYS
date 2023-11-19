@@ -85,8 +85,8 @@ bool validar_cpf(Lista_encadeada *lista, const char *cpf);
 // Protótipo da função para exibir todas as reservas da data escolhida
 void exibir_lista_checkin(Lista_encadeada *lista);
 
-// Protótipo da função para excluir um elemento (nó) da lista encadeada
-No* remover(No **lista, char cpf[]);
+// Protótipo da função para remover as reservas do CPF
+void remover_elemento(Lista_encadeada *lista, const char *cpf, const char *nome_arquivo);
 
 #endif
 

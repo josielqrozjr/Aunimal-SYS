@@ -15,10 +15,8 @@
 int main(int argc, char *argv[]) {
 
   Lista_encadeada *lista_editor = abrir_arquivo_binario(argv[1]); // Abrir arquivo para ser utilizado no editor
-
-  int opcao, valor, anterior;
+  int opcao;
   char cpf[12];
-      No *removido, *lista = NULL;
 
       do{
           printf("\nAUNIMAL - HOTEL PET \nSistema de Reservas \n\t1 - Cadastrar reserva\n\t2 - Remover reserva\n\t3 - Exibir reservas\n\t4 - Sair\n");
@@ -32,15 +30,9 @@ int main(int argc, char *argv[]) {
             break;
           case 2:
             printf("Remover reserva\n");
-            printf("Digite o CPF do registro que deseja remover\n");
+            printf("Digite o CPF do registro que deseja remover: ");
             scanf("%11s", cpf);
-            removido = remover(&lista, cpf);
-            if(removido){
-                printf("Elemento a ser removido: %s\n", removido->Reserva->cpf);
-                free(removido);
-            }
-            else
-                printf("Elemento inexistente!\n");
+            remover_elemento(lista_editor, cpf, argv[1]);
             break;
           case 3:
             printf("Exibir reservas\n");
@@ -52,15 +44,18 @@ int main(int argc, char *argv[]) {
             break;
           case 4:
             printf("Encerrando sistema!\n");
+            exit(0); // Encerrar
             break;
           default:
               if(opcao != 0)
                   printf("Opcao inválida!\n");
           }
 
-      }while(opcao != 0);
+    }while(opcao != 0);
 
-      return 0;
+    excluir_lista_encadeada(lista_editor);  
+
+    return 0;
   }
 
 

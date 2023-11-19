@@ -97,7 +97,7 @@ void gravar_lista_encadeada(const char *nome_arquivo, Lista_encadeada *lista) {
         printf("Erro ao abrir o arquivo binário para escrita.\n");
         return;
     }
-  
+
     No *no = (No*) malloc(sizeof(No));
     no = lista->primeiro;
     while (no != NULL) { // Loop para escrever cada nó da lista no arquivo
@@ -168,7 +168,7 @@ Lista_encadeada *abrir_arquivo_binario(const char *nome_arquivo){
   Reserva reserva;
 
   // Ler os dados do arquivo binário e insere na lista encadeada
-  while (fread(&reserva, sizeof(Reserva), 1, arquivo_binario) == 1) {
+  while (fread(&reserva, sizeof(Reserva), 1, arquivo_binario) || !feof(arquivo_binario)) {
     Reserva *reserva_nova = malloc(sizeof(Reserva));
     if (reserva_nova == NULL) {
       puts("Erro na alocação de memória!");
@@ -257,8 +257,8 @@ void cadastrar_reserva(Lista_encadeada *lista_nova_reserva, const char *arquivo_
   // Gravar os dados da lista no arquivo binário
   gravar_lista_encadeada(arquivo_binario, lista_nova_reserva);
 
-  // Destruir a lista encadeada
-  excluir_lista_encadeada(lista_nova_reserva);
+    printf("Reserva cadastrada com sucesso!.\n");
+
 }
 
 //-----------------------------------------------------------------------------------
@@ -294,7 +294,7 @@ void exibir_lista_checkin(Lista_encadeada *lista) {
     char data_escolhida[MIN_STRING];
     printf("Digite a data de check-in: ");
     scanf("%s", data_escolhida);
-  
+
     No *no = lista->primeiro;
 
     while (no != NULL) {
@@ -343,32 +343,39 @@ void gravar_lista_encadeada_em_texto(const char *nome_arquivo, Lista_encadeada *
 
 //-----------------------------------------------------------------------------------
 // Função para excluir um elemento (nó) da lista encadeada
-No* remover(No **lista, char cpf[]){
-    No *aux, *remover = NULL;
+void remover_elemento(Lista_encadeada *lista, const char *cpf, const char *nome_arquivo) {
+    No *anterior = NULL;
+    No *atual = lista->primeiro;
 
-    // Verifica se o nó é diferente de NULL
-    if(*lista){
+    while (atual != NULL) {
+        if (strcmp(atual->Reserva->cpf, cpf) == 0) {
+            // Encontrou o elemento a ser removido
 
-        // Compara o número de cpf dos elementos da lista com o cpf inserido pelo usuário. Caso sejam iguais, a variável remover recebe o endereço deste elemento (*lista é a posição atual da lista) e a lista recebe o próximo elemento
-        if(strcmp((*lista)->Reserva->cpf, cpf)){
-            remover = *lista;
-            *lista = remover->proximo;
-        }
-
-           // Caso não seja igual ao cpf inserido um ponteiro auxiliar recebe o início da lista (pois assim não alteraremos diretamente o ponteiro da lista)
-        else{
-            aux = *lista;
-
-            // Enquanto elemento não for o último da lista(*lista->proximo != NULL) e o próximo elemento possuir o cpf diferente daquele inserido pelo usuário, o ponteiro auxiliar recebe o próximo elemento da lista
-            while(aux->proximo && strcmp(aux->proximo->Reserva->cpf, cpf) ==0)
-                aux = aux->proximo;
-
-            // Se o elemento não for o último da lista (*lista->proximo != NULL) a variável remover recebe o próximo elemento da lista e o próximo elemento da lista recebe o seu elemento seguinte
-            if(aux->proximo){
-                remover = aux->proximo;
-                aux->proximo = remover->proximo;
+            if (anterior == NULL) {
+                // O elemento a ser removido está no início da lista
+                lista->primeiro = atual->proximo;
+            } else {
+                // O elemento a ser removido não está no início da lista
+                anterior->proximo = atual->proximo;
             }
+
+            // Liberar a memória do elemento removido
+            free(atual->Reserva);
+            free(atual);
+
+            // Gravar os dados da lista no arquivo binário
+            gravar_lista_encadeada(nome_arquivo, lista);
+
+            printf("Reserva com CPF %s removido do sistema.\n", cpf);
+            return;
+
         }
+
+        // Avançar para o próximo nó da lista
+        anterior = atual;
+        atual = atual->proximo;
     }
-    return remover;
+
+    // O CPF não foi encontrado na lista
+    printf("Reserva com CPF %s não encontrado no sistema.\n", cpf);
 }

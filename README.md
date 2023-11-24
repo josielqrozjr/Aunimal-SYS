@@ -1,6 +1,9 @@
 # Aunimal-SYS
+
+ <img width="682" alt="Captura de Tela 2023-11-23 às 22 18 20" src="https://github.com/josielqrozjr/Aunimal-SYS/assets/131998280/75298a6c-29c2-449c-962c-1af6c7bdb097">
+
 ### Status: ✅ Concluído
-Sistema de gerenciamento de reservas de um hotel Pet usando linguagem C. Neste sistema é possível alterar, inserir e listas reservas do dia ou todas. A compilação é feita separadamente formando três executáveis com funções próprias.
+Sistema de gerenciamento de reservas de um hotel Pet usando linguagem C. Neste sistema é possível alterar, inserir e listar reservas do dia ou todas as existentes no sistema. A compilação é feita separadamente formando três executáveis com funções próprias.
 
 <h4>Tecnologia utilizada:</h4>
 <ul>
